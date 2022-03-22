@@ -11,14 +11,11 @@ namespace ChannelPlay.Entities.Entities
     public class TblChannel
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Range(1, int.MaxValue, ErrorMessage = "Minimum value is 1.")]
         public int ID { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Minimum value is 1.")]
-        public int Number { get; set; }
-        public ICollection<TblInformation> Informations { get; set; }
+        public ICollection<TblInformation> Information { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace ChannelPlay.Services
         {
             var mappingConfig = new MapperConfiguration(config => {
                 config.CreateMap<InformationVM, TblInformation>().ReverseMap();
+                config.CreateMap<ChannelVM, TblChannel>().ReverseMap();
             });
 
             return mappingConfig;

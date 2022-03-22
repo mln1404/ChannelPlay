@@ -20,5 +20,6 @@ namespace ChannelPlay.Services.ViewModels
         public DateTime? ActiveFrom { get; set; }
         public DateTime? ActiveTo { get; set; }
         public int? ChannelID { get; set; }
+        public ChannelVM Channel { get; set; }
     }
 }
