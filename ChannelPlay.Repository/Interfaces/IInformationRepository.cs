@@ -9,7 +9,7 @@ namespace ChannelPlay.Repository.Interfaces
 {
     public interface IInformationRepository
     {
-        IEnumerable<TblInformation> GetChannelInformation(int channelNo);
+        IEnumerable<TblInformation> GetChannelInformation(int channelID, DateTime? from, DateTime? to);
         void CreateInformation(TblInformation information);
         IEnumerable<TblInformation> GetAllInformation();
     }

@@ -1,4 +1,5 @@
 ﻿using ChannelPlay.Entities.Entities;
+using ChannelPlay.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +10,24 @@ namespace ChannelPlay.API.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly ILogger<ChannelController> _logger;
+        private readonly IChannelService _channelService;
 
-        public ChannelController(ILogger<ChannelController> logger)
+        public ChannelController(ILogger<ChannelController> logger, IChannelService channelService)
         {
             _logger = logger;
+            _channelService = channelService;
         }
 
         [HttpPost(Name = "Form")]
-        public async Task<IActionResult> Create(TblChannel channel)
+        public IActionResult Create(TblChannel channel)
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState.Select(x => x.Value?.Errors)
+                           .Where(y=>y?.Count>0)
+                           .ToList());
+                _channelService.CreateChannel(channel);
                 return Ok();
             }
             catch (Exception ex)
@@ -34,6 +42,7 @@ namespace ChannelPlay.API.Controllers
         {
             try
             {
+                _channelService.AssignInformation(channel, newInformation);
                 return Ok();
             }
             catch (Exception ex)

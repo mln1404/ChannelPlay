@@ -15,7 +15,7 @@ namespace ChannelPlay.Services.Services
             _informationRepository = informationRepository;
             _mapper = mapper;
         }
-        public bool CreateInformation(InformationVM information)
+        public void CreateInformation(InformationVM information)
         {
             
         }
@@ -25,9 +25,9 @@ namespace ChannelPlay.Services.Services
             return _mapper.Map<IEnumerable<InformationVM>>(_informationRepository.GetAllInformation());
         }
 
-        public IEnumerable<InformationVM> GetChannelInformation(int channelID)
+        public IEnumerable<InformationVM> GetChannelInformation(int channelID, DateTime? from, DateTime? to)
         {
-            return _mapper.Map<IEnumerable<InformationVM>>(_informationRepository.GetChannelInformation(channelID));
+            return _mapper.Map<IEnumerable<InformationVM>>(_informationRepository.GetChannelInformation(channelID, from, to));
         }
     }
 }

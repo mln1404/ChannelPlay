@@ -34,7 +34,7 @@ namespace ChannelPlay.Repository.Repositories
             return _context.TblInformation.AsEnumerable();
         }
 
-        public IEnumerable<TblInformation> GetChannelInformation(int channelID)
+        public IEnumerable<TblInformation> GetChannelInformation(int channelID, DateTime? from, DateTime? to)
         {
             return _context.TblInformation.Where(i => i.ChannelID == channelID).AsEnumerable();
         }

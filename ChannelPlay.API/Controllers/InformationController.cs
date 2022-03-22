@@ -1,4 +1,4 @@
-﻿m  using ChannelPlay.Entities.Entities;
+﻿using ChannelPlay.Services.Interfaces;
 using ChannelPlay.Services.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,18 +10,20 @@ namespace ChannelPlay.API.Controllers
     public class InformationController : ControllerBase
     {
         private readonly ILogger<InformationController> _logger;
+        private readonly IInformationService _informationService;
 
-        public InformationController(ILogger<InformationController> logger)
+        public InformationController(ILogger<InformationController> logger, IInformationService informationService)
         {
             _logger = logger;
+            _informationService = informationService;
         }
 
         [HttpGet(Name = "Informations")]
-        public async Task<ActionResult<List<InformationVM>>> Informations()
+        public ActionResult<IEnumerable<InformationVM>> Informations()
         {
             try
             {
-                return Ok();
+                return Ok(_informationService.GetAllInformation());
             }
             catch (Exception ex)
             {
@@ -31,11 +33,11 @@ namespace ChannelPlay.API.Controllers
 
 
         [HttpGet(Name = "Play")]
-        public async Task<ActionResult<List<InformationVM>>> Play(int number, DateTime? from, DateTime? to)
+        public ActionResult<List<InformationVM>> Play(int id, DateTime? from, DateTime? to)
         {
             try
             {
-                return Ok();
+                return Ok(_informationService.GetChannelInformation(id, from, to));
             }
             catch (Exception ex)
             {
@@ -44,10 +46,15 @@ namespace ChannelPlay.API.Controllers
         }
 
         [HttpPost(Name = "Form")]
-        public async Task<IActionResult> Create(InformationVM information)
+        public IActionResult Create(InformationVM information)
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState.Select(x => x.Value?.Errors)
+                           .Where(y=>y?.Count>0)
+                           .ToList());
+                _informationService.CreateInformation(information);
                 return Ok();
             }
             catch (Exception ex)
